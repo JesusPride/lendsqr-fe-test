@@ -1,0 +1,31 @@
+@import '../../styles/variables.scss';
+
+.status-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-size: $font-size-sm;
+  font-weight: 400;
+  text-align: center;
+  min-width: 80px;
+
+  &.status-active {
+    background: rgba(57, 205, 98, 0.06);
+    color: $active-color;
+  }
+
+  &.status-inactive {
+    background: rgba(84, 95, 125, 0.06);
+    color: $inactive-color;
+  }
+
+  &.status-pending {
+    background: rgba(233, 178, 0, 0.06);
+    color: $pending-color;
+  }
+
+  &.status-blacklisted {
+    background: rgba(228, 3, 59, 0.06);
+    color: $blacklisted-color;
+  }
+}

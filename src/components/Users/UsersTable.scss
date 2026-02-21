@@ -1,0 +1,197 @@
+@import "../../styles/variables.scss";
+
+.users-table-container {
+  background: $white;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  border: 1px solid $border-color;
+  overflow: visible;
+  width: 100%;
+  max-width: 100%;
+
+  .table-wrapper {
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+
+    // Ensure scrollbar is visible and styled on all devices
+    scrollbar-width: thin;
+    scrollbar-color: rgba(33, 63, 125, 0.3) transparent;
+
+    &::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgba(33, 63, 125, 0.1);
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(33, 63, 125, 0.3);
+      border-radius: 4px;
+
+      &:hover {
+        background: rgba(33, 63, 125, 0.5);
+      }
+    }
+  }
+
+  .users-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: $font-size-sm;
+
+    .table-header {
+      background: $white;
+      padding: 20px 24px;
+      text-align: left;
+      border-bottom: 1px solid $border-color;
+      font-weight: 600;
+      font-size: 12px;
+      color: $text-light;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+
+      &.actions-header {
+        width: 80px;
+        padding: 20px 24px;
+      }
+
+      .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: $spacing-sm;
+      }
+    }
+
+    .table-row {
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: rgba(84, 95, 125, 0.02);
+      }
+
+      &.clickable {
+        cursor: pointer;
+
+        &:hover {
+          background-color: rgba(84, 95, 125, 0.05);
+        }
+      }
+
+      &:not(:last-child) {
+        border-bottom: 1px solid $border-color;
+      }
+    }
+
+    .table-cell {
+      padding: 20px 24px;
+      color: $text-light;
+      font-size: 14px;
+      vertical-align: middle;
+      white-space: nowrap;
+
+      &.actions-cell {
+        text-align: center;
+        width: 80px;
+      }
+    }
+  }
+
+  // Responsive design
+  @media (max-width: 1200px) {
+    .users-table {
+      min-width: 1000px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .users-table {
+      min-width: 900px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    // Keep table container within viewport bounds
+    margin: 0;
+    border-radius: $border-radius;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+
+    .table-wrapper {
+      border-radius: $border-radius;
+      width: 100%;
+      max-width: 100%;
+      // Enable horizontal scrolling within the container
+      overflow-x: auto;
+      overflow-y: visible;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .users-table {
+      min-width: 800px; // Table content wider than container
+      font-size: 13px;
+
+      .table-header,
+      .table-cell {
+        padding: 16px 12px;
+        white-space: nowrap;
+      }
+
+      .table-header {
+        font-size: 11px;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+
+    .table-wrapper {
+      width: 100%;
+      max-width: 100%;
+      // Maintain horizontal scrolling within container
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .users-table {
+      min-width: 700px; // Table content wider than container
+
+      .table-header,
+      .table-cell {
+        padding: 12px 8px;
+        font-size: 12px;
+      }
+
+      .table-header {
+        font-size: 10px;
+      }
+    }
+  }
+
+  @media (max-width: 360px) {
+    .users-table {
+      min-width: 650px;
+
+      .table-header,
+      .table-cell {
+        padding: 10px 6px;
+        font-size: 11px;
+      }
+
+      .table-header {
+        font-size: 9px;
+      }
+    }
+  }
+}

@@ -1,0 +1,70 @@
+@import "../../styles/variables.scss";
+
+.users-page {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: visible;
+  position: relative;
+  box-sizing: border-box;
+
+  // Ensure proper mobile containment
+  @media (max-width: 768px) {
+    overflow-x: hidden; // Prevent page-level horizontal scrolling
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .page-title {
+    font-size: 24px;
+    font-weight: 500;
+    color: $primary-blue;
+    margin-bottom: 40px;
+
+    @media (max-width: 768px) {
+      font-size: 20px;
+      margin-bottom: 32px;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 18px;
+      margin-bottom: 24px;
+    }
+  }
+
+  &.loading {
+    pointer-events: none;
+  }
+
+  .users-loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(2px);
+
+    .loading-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: $spacing-lg;
+      padding: $spacing-2xl;
+      background: $white;
+      border-radius: 12px;
+      box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.1);
+
+      p {
+        font-size: $font-size-lg;
+        color: $primary-blue;
+        font-weight: 500;
+        margin: 0;
+      }
+    }
+  }
+}

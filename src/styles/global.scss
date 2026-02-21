@@ -1,0 +1,55 @@
+@import "./variables.scss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $font-family;
+  background-color: $background;
+  color: $text-dark;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  display: block !important; // Override Vite's default flex layout
+  place-items: initial !important; // Override Vite's default centering
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  max-width: none !important; // Override any max-width constraints
+  margin: 0 !important; // Override any centering margins
+  padding: 0 !important; // Override any default padding
+}
+
+button {
+  font-family: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+// Ensure input fields have proper styling
+input,
+textarea,
+select {
+  font-family: inherit;
+  background-color: $white;
+  color: $text-dark;
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px $white inset !important;
+    -webkit-text-fill-color: $text-dark !important;
+    background-color: $white !important;
+  }
+}

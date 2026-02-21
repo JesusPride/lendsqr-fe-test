@@ -1,0 +1,150 @@
+@import '../../styles/variables.scss';
+
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-md;
+  padding: $spacing-md $spacing-lg;
+  margin-bottom: $spacing-md;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  background: $white;
+  border-left: 4px solid;
+  min-width: 320px;
+  max-width: 480px;
+  opacity: 0;
+  transform: translateX(100%);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+
+  &.toast-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  &.toast-exiting {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  .toast-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+  }
+
+  .toast-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .toast-title {
+    font-weight: 600;
+    font-size: $font-size-md;
+    line-height: 1.4;
+    margin-bottom: 2px;
+  }
+
+  .toast-message {
+    font-size: $font-size-sm;
+    line-height: 1.4;
+    opacity: 0.8;
+  }
+
+  .toast-close {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 4px;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  // Success toast
+  &.toast-success {
+    border-left-color: $success;
+
+    .toast-icon {
+      color: $success;
+    }
+
+    .toast-title {
+      color: $success;
+    }
+  }
+
+  // Error toast
+  &.toast-error {
+    border-left-color: $danger;
+
+    .toast-icon {
+      color: $danger;
+    }
+
+    .toast-title {
+      color: $danger;
+    }
+  }
+
+  // Warning toast
+  &.toast-warning {
+    border-left-color: $warning;
+
+    .toast-icon {
+      color: $warning;
+    }
+
+    .toast-title {
+      color: $warning;
+    }
+  }
+
+  // Info toast
+  &.toast-info {
+    border-left-color: $primary-blue;
+
+    .toast-icon {
+      color: $primary-blue;
+    }
+
+    .toast-title {
+      color: $primary-blue;
+    }
+  }
+}
+
+// Toast container
+.toast-container {
+  position: fixed;
+  top: $spacing-xl;
+  right: $spacing-xl;
+  z-index: 9999;
+  pointer-events: none;
+
+  .toast {
+    pointer-events: auto;
+  }
+
+  @media (max-width: 768px) {
+    top: $spacing-lg;
+    right: $spacing-lg;
+    left: $spacing-lg;
+
+    .toast {
+      min-width: auto;
+      max-width: none;
+    }
+  }
+}

@@ -1,0 +1,270 @@
+@import "../../styles/variables.scss";
+
+.header {
+  position: fixed;
+  top: 0;
+  left: $sidebar-width;
+  right: 0;
+  height: $header-height;
+  background: $white;
+  // border-bottom: 1px solid $border-color;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 100px;
+  z-index: 100;
+  box-shadow: $box-shadow;
+  transition: left 0.3s ease-in-out;
+
+  // Mobile responsiveness
+  @media (max-width: 1440px) {
+    padding: 0 80px;
+  }
+
+  @media (max-width: 1024px) {
+    left: 0;
+    padding: 0 60px;
+    justify-content: flex-start;
+    gap: $spacing-md;
+  }
+
+  @media (max-width: 768px) {
+    height: 70px;
+    padding: 0 $spacing-md;
+    gap: $spacing-sm;
+  }
+
+  .hamburger-menu {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: $spacing-sm;
+    margin-right: $spacing-md;
+    z-index: 101;
+
+    @media (max-width: 1024px) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    svg {
+      width: 24px;
+      height: 24px;
+      color: $primary-blue;
+      stroke: $primary-blue;
+    }
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex: 1;
+
+    @media (max-width: 1024px) {
+      gap: $spacing-lg;
+    }
+
+    @media (max-width: 768px) {
+      gap: $spacing-md;
+    }
+
+    .logo {
+      height: 30px;
+
+      @media (max-width: 768px) {
+        height: 24px;
+      }
+    }
+
+    .search-container {
+      position: relative;
+      display: flex;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.04);
+      flex-shrink: 1;
+      min-width: 0;
+
+      @media (max-width: 768px) {
+        display: none;
+      }
+
+      .search-input {
+        width: 400px;
+        height: 40px;
+        border: 1px solid rgba(33, 63, 125, 0.2);
+        border-right: none;
+        border-radius: 8px 0 0 8px;
+        padding: 0 $spacing-md;
+        font-size: $font-size-sm;
+        outline: none;
+        background: $white;
+
+        &::placeholder {
+          color: $text-muted;
+          font-size: $font-size-sm;
+        }
+
+        &:focus {
+          border-color: rgba(33, 63, 125, 0.3);
+        }
+
+        @media (max-width: 1024px) {
+          width: 300px;
+        }
+
+        @media (max-width: 900px) {
+          width: 250px;
+        }
+      }
+
+      .search-btn {
+        width: 56px;
+        height: 40px;
+        background: $secondary-blue;
+        border: 1px solid $secondary-blue;
+        border-radius: 0 8px 8px 0;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s ease;
+        flex-shrink: 0;
+
+        &:hover {
+          background: darken($secondary-blue, 5%);
+        }
+
+        svg {
+          width: 14px;
+          height: 14px;
+        }
+      }
+    }
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    flex-shrink: 0;
+
+    @media (max-width: 1024px) {
+      gap: $spacing-lg;
+    }
+
+    @media (max-width: 768px) {
+      gap: $spacing-md;
+    }
+
+    .mobile-search-btn {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: $spacing-sm;
+
+      @media (max-width: 768px) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    .docs-link {
+      color: $primary-blue;
+      text-decoration: underline;
+      font-size: $font-size-md;
+      font-weight: 400;
+
+      @media (max-width: 768px) {
+        display: none;
+      }
+    }
+
+    .notification-icon {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      cursor: pointer;
+      position: relative;
+
+      .avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+
+        @media (max-width: 768px) {
+          width: 36px;
+          height: 36px;
+        }
+      }
+
+      .username {
+        color: $primary-blue;
+        font-weight: 500;
+
+        @media (max-width: 768px) {
+          display: none;
+        }
+      }
+
+      .dropdown-arrow {
+        @media (max-width: 768px) {
+          display: none;
+        }
+      }
+
+      .user-dropdown {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        background: $white;
+        border: 1px solid $border-color;
+        border-radius: $border-radius;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+        min-width: 150px;
+        z-index: 1001;
+        margin-top: 0;
+
+        .dropdown-item {
+          padding: $spacing-md $spacing-lg;
+          cursor: pointer;
+          transition: background-color 0.2s;
+
+          &:hover {
+            background: rgba(33, 63, 125, 0.05);
+          }
+
+          &:first-child {
+            border-radius: $border-radius $border-radius 0 0;
+          }
+
+          &:last-child {
+            border-radius: 0 0 $border-radius $border-radius;
+          }
+
+          span {
+            color: $text-dark;
+            font-size: $font-size-sm;
+          }
+        }
+      }
+    }
+  }
+}

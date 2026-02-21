@@ -1,0 +1,36 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "admin@lendsqr.com",
+      "password": "password123",
+      "firstName": "Adedeji",
+      "lastName": "Adebayo",
+      "role": "admin",
+      "avatar": "/avatar.svg"
+    },
+    {
+      "id": "2",
+      "email": "user@lendsqr.com",
+      "password": "password123",
+      "firstName": "Grace",
+      "lastName": "Effiom",
+      "role": "user",
+      "avatar": "/avatar.svg"
+    },
+    {
+      "id": "3",
+      "email": "demo@lendsqr.com",
+      "password": "demo123",
+      "firstName": "Demo",
+      "lastName": "User",
+      "role": "user",
+      "avatar": "/avatar.svg"
+    }
+  ],
+  "tokens": {
+    "admin@lendsqr.com": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJhZG1pbkBsZW5kc3FyLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY5MDAwMDAwMCwiZXhwIjoxNjkwMDg2NDAwfQ.example",
+    "user@lendsqr.com": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZW1haWwiOiJ1c2VyQGxlbmRzcXIuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2OTAwMDAwMDAsImV4cCI6MTY5MDA4NjQwMH0.example",
+    "demo@lendsqr.com": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwiZW1haWwiOiJkZW1vQGxlbmRzcXIuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2OTAwMDAwMDAsImV4cCI6MTY5MDA4NjQwMH0.example"
+  }
+}

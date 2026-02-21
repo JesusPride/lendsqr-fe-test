@@ -1,0 +1,59 @@
+@import "../styles/variables.scss";
+
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: $background;
+  font-family: $font-family;
+  position: relative;
+
+  .dashboard-main {
+    flex: 1;
+    margin-left: $sidebar-width;
+    display: flex;
+    flex-direction: column;
+    min-width: 0; // Prevent flex item from overflowing
+  }
+
+  .dashboard-content {
+    flex: 1;
+    padding: 40px 100px;
+    margin-top: $header-height;
+    overflow-x: hidden; // Prevent horizontal scroll at this level
+    overflow-y: visible; // Allow vertical overflow for dropdowns
+    width: 100%;
+    max-width: none; // Remove max-width constraint
+    min-width: 0;
+    box-sizing: border-box; // Ensure padding is included in width calculations
+  }
+
+  // Mobile responsiveness
+  @media (max-width: 1440px) {
+    .dashboard-content {
+      padding: 40px 80px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .dashboard-main {
+      margin-left: 0;
+    }
+
+    .dashboard-content {
+      padding: 40px 60px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .dashboard-content {
+      padding: $spacing-lg $spacing-md;
+      margin-top: 70px; // Smaller header on mobile
+    }
+  }
+
+  @media (max-width: 480px) {
+    .dashboard-content {
+      padding: $spacing-md $spacing-sm;
+    }
+  }
+}
