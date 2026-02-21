@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { usersAPI } from '../api/users';
 import type { User, UsersResponse, UserFilters, UsersPaginationParams } from '../api/users';
 import { userStorage } from '../storage/userStorage';
@@ -22,6 +22,9 @@ interface UseUsersOptions {
 export const useUsers = (options: UseUsersOptions = {}) => {
   const { initialFilters = {}, initialPagination = { page: 1, limit: 10 }, autoFetch = true } = options;
 
+  // Track if fetch has been called
+  const fetchUsersCalled = useRef(false);
+
   // Initialize state with stored values
   const [usersState, setUsersState] = useState<UsersState>({
     users: [],
@@ -33,38 +36,106 @@ export const useUsers = (options: UseUsersOptions = {}) => {
     error: null,
   });
 
-  const [filters, setFilters] = useState<UserFilters>(() => ({
-    ...initialFilters,
-    ...userStorage.getUserFilters(),
-  }));
+  const [filters, setFilters] = useState<UserFilters>(() => {
+    // Get stored filters and filter out empty values
+    const storedFilters = userStorage.getUserFilters();
+    const cleanFilters: UserFilters = {};
 
-  const [pagination, setPagination] = useState<UsersPaginationParams>(() => ({
-    ...initialPagination,
-    ...userStorage.getUserPagination(),
-  }));
+    Object.entries(storedFilters).forEach(([key, value]) => {
+      if (value && value !== '') {
+        cleanFilters[key as keyof UserFilters] = value;
+      }
+    });
+
+    return {
+      ...initialFilters,
+      ...cleanFilters,
+    };
+  });
+
+  const [pagination, setPagination] = useState<UsersPaginationParams>(() => {
+    const storedPagination = userStorage.getUserPagination();
+
+    // Ensure pagination values are valid
+    const validPagination: UsersPaginationParams = {
+      page: storedPagination.page && storedPagination.page > 0 ? storedPagination.page : 1,
+      limit: storedPagination.limit && storedPagination.limit > 0 ? storedPagination.limit : 10,
+    };
+
+    return {
+      ...initialPagination,
+      ...validPagination,
+    };
+  });
 
   // Fetch users function
   const fetchUsers = useCallback(async (
     customFilters?: UserFilters,
-    customPagination?: UsersPaginationParams
+    customPagination?: UsersPaginationParams,
+    forceClearFilters: boolean = false
   ): Promise<void> => {
     try {
       setUsersState(prev => ({ ...prev, isLoading: true, error: null }));
 
+      // Determine filters to use - use clean filters on initial fetch or if forceClearFilters is true
+      const effectiveFilters = (forceClearFilters || fetchUsersCalled.current === false)
+        ? {}
+        : (customFilters || filters);
+
+      // Mark that we've called fetch at least once
+      fetchUsersCalled.current = true;
+
       const response: UsersResponse = await usersAPI.getUsers(
-        customFilters || filters,
+        effectiveFilters,
         customPagination || pagination
       );
+
+      // Validate pagination against response total
+      let adjustedPage = response.page;
+
+      // If the page is greater than totalPages, adjust it
+      if (response.totalPages > 0 && response.page > response.totalPages) {
+        adjustedPage = response.totalPages;
+      }
 
       setUsersState({
         users: response.users,
         total: response.total,
-        page: response.page,
+        page: adjustedPage,
         limit: response.limit,
         totalPages: response.totalPages,
         isLoading: false,
         error: null,
       });
+
+      // Update pagination if it was adjusted
+      if (adjustedPage !== response.page) {
+        setPagination(prev => ({ ...prev, page: adjustedPage }));
+        userStorage.saveUserPagination({ ...pagination, page: adjustedPage });
+      }
+
+      // If no users returned and there are filters, clear them to show all users
+      if (response.users.length === 0 && Object.keys(effectiveFilters).length > 0) {
+        setFilters({});
+        setPagination(prev => ({ ...prev, page: 1 }));
+        userStorage.saveUserFilters({});
+        userStorage.saveUserPagination({ ...pagination, page: 1 });
+        // Re-fetch with cleared filters
+        const retryResponse = await usersAPI.getUsers(
+          {},
+          { ...pagination, page: 1 }
+        );
+        setUsersState({
+          users: retryResponse.users,
+          total: retryResponse.total,
+          page: 1,
+          limit: retryResponse.limit,
+          totalPages: retryResponse.totalPages,
+          isLoading: false,
+          error: null,
+        });
+        return;
+      }
     } catch (error: unknown) {
       const errorMessage = (error as Error)?.message || 'Failed to fetch users';
       setUsersState(prev => ({

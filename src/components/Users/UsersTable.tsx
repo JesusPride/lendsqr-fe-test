@@ -81,92 +81,97 @@ const UsersTable: React.FC<UsersTableProps> = ({ onStatsRefresh }) => {
   };
 
   return (
-    <div className="users-table-container">
-      <div className="table-wrapper">
-        <table className="users-table">
-          <thead>
-            <tr>
-              {columns.map((column) => (
-                <th key={column.key} className="table-header">
-                  <div className="header-content">
-                    <span>{column.label}</span>
-                    {column.filterable && (
-                      <TableFilter
-                        columnKey={column.key}
-                        onFilter={handleFilter}
-                        filterType={column.key === "status" ? "select" : "text"}
-                        options={
-                          column.key === "status"
-                            ? ["Active", "Inactive", "Pending", "Blacklisted"]
-                            : undefined
-                        }
-                      />
-                    )}
-                  </div>
-                </th>
-              ))}
-              <th className="table-header actions-header"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {isLoading ? (
+    <div className="users-page-content">
+      <div className="users-table-container">
+        <div className="table-wrapper">
+          <table className="users-table">
+            <thead>
               <tr>
-                <td colSpan={7} className="table-cell loading-cell">
-                  Loading users...
-                </td>
+                {columns.map((column) => (
+                  <th key={column.key} className="table-header">
+                    <div className="header-content">
+                      <span>{column.label}</span>
+                      {column.filterable && (
+                        <TableFilter
+                          columnKey={column.key}
+                          onFilter={handleFilter}
+                          filterType={
+                            column.key === "status" ? "select" : "text"
+                          }
+                          options={
+                            column.key === "status"
+                              ? ["Active", "Inactive", "Pending", "Blacklisted"]
+                              : undefined
+                          }
+                        />
+                      )}
+                    </div>
+                  </th>
+                ))}
+                <th className="table-header actions-header"></th>
               </tr>
-            ) : error ? (
-              <tr>
-                <td colSpan={7} className="table-cell error-cell">
-                  Error: {error}
-                </td>
-              </tr>
-            ) : users.length === 0 ? (
-              <tr>
-                <td colSpan={7} className="table-cell empty-cell">
-                  No users found
-                </td>
-              </tr>
-            ) : (
-              users.map((user) => (
-                <tr
-                  key={user.id}
-                  className="table-row clickable"
-                  onClick={() => handleRowClick(user.id)}
-                >
-                  <td className="table-cell">{user.organization}</td>
-                  <td className="table-cell">{user.username}</td>
-                  <td className="table-cell">{user.email}</td>
-                  <td className="table-cell">{user.phoneNumber}</td>
-                  <td className="table-cell">{user.dateJoined}</td>
-                  <td className="table-cell">
-                    <StatusBadge status={user.status} />
-                  </td>
-                  <td
-                    className="table-cell actions-cell"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <ActionMenu
-                      userId={user.id}
-                      currentStatus={user.status}
-                      onStatusChange={handleStatusChange}
-                    />
+            </thead>
+            <tbody>
+              {isLoading ? (
+                <tr>
+                  <td colSpan={7} className="table-cell loading-cell">
+                    Loading users...
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : error ? (
+                <tr>
+                  <td colSpan={7} className="table-cell error-cell">
+                    Error: {error}
+                  </td>
+                </tr>
+              ) : users.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="table-cell empty-cell">
+                    No users found
+                  </td>
+                </tr>
+              ) : (
+                users.map((user) => (
+                  <tr
+                    key={user.id}
+                    className="table-row clickable"
+                    onClick={() => handleRowClick(user.id)}
+                  >
+                    <td className="table-cell">{user.organization}</td>
+                    <td className="table-cell">{user.username}</td>
+                    <td className="table-cell">{user.email}</td>
+                    <td className="table-cell">{user.phoneNumber}</td>
+                    <td className="table-cell">{user.dateJoined}</td>
+                    <td className="table-cell">
+                      <StatusBadge status={user.status} />
+                    </td>
+                    <td
+                      className="table-cell actions-cell"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <ActionMenu
+                        userId={user.id}
+                        currentStatus={user.status}
+                        onStatusChange={handleStatusChange}
+                      />
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-
-      <Pagination
-        currentPage={page}
-        totalPages={totalPages}
-        totalItems={total}
-        itemsPerPage={limit}
-        onPageChange={handlePageChange}
-        onItemsPerPageChange={handleItemsPerPageChange}
-      />
+      <div className="users-pagination-container">
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          totalItems={total}
+          itemsPerPage={limit}
+          onPageChange={handlePageChange}
+          onItemsPerPageChange={handleItemsPerPageChange}
+        />
+      </div>
     </div>
   );
 };

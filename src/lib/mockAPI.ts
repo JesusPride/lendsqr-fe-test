@@ -80,37 +80,46 @@ export const mockUsersAPI = {
   ): Promise<UsersResponse> => {
     await delay();
 
-    let users = [...mockUsersData.users] as User[];
+    // Ensure we have users data - defensive check
+    const mockData = mockUsersData as unknown as { users?: User[] };
+    const allUsers = mockData?.users ?? [];
+    let users: User[] = Array.isArray(allUsers) ? [...allUsers] : [];
 
-    // Apply filters
+    // Debug log
+    console.log('Mock API: Total users available:', users.length, 'Pagination:', pagination);
+
+    // Apply filters only if we have users
+
+    // Apply filters - only apply filters with non-empty values
     if (filters) {
-      if (filters.organization) {
-        users = users.filter(user =>
-          user.organization.toLowerCase().includes(filters.organization!.toLowerCase())
-        );
-      }
-      if (filters.username) {
-        users = users.filter(user =>
-          user.username.toLowerCase().includes(filters.username!.toLowerCase())
-        );
-      }
-      if (filters.email) {
-        users = users.filter(user =>
-          user.email.toLowerCase().includes(filters.email!.toLowerCase())
-        );
-      }
-      if (filters.phoneNumber) {
-        users = users.filter(user =>
-          user.phoneNumber.includes(filters.phoneNumber!)
-        );
-      }
-      if (filters.status) {
-        users = users.filter(user => user.status === filters.status);
-      }
-      if (filters.dateJoined) {
-        users = users.filter(user =>
-          user.dateJoined.includes(filters.dateJoined!)
-        );
+      const activeFilters = Object.entries(filters).filter(
+        ([, filterValue]) => filterValue !== undefined && filterValue !== null && filterValue !== ''
+      );
+
+      for (const [key, value] of activeFilters) {
+        if (key === 'organization') {
+          users = users.filter(user =>
+            user.organization.toLowerCase().includes(String(value).toLowerCase())
+          );
+        } else if (key === 'username') {
+          users = users.filter(user =>
+            user.username.toLowerCase().includes(String(value).toLowerCase())
+          );
+        } else if (key === 'email') {
+          users = users.filter(user =>
+            user.email.toLowerCase().includes(String(value).toLowerCase())
+          );
+        } else if (key === 'phoneNumber') {
+          users = users.filter(user =>
+            user.phoneNumber.includes(String(value))
+          );
+        } else if (key === 'status') {
+          users = users.filter(user => user.status === value);
+        } else if (key === 'dateJoined') {
+          users = users.filter(user =>
+            user.dateJoined.includes(String(value))
+          );
+        }
       }
     }
 
@@ -136,14 +145,18 @@ export const mockUsersAPI = {
   getUserById: async (id: string): Promise<User> => {
     await delay();
 
-    const user = mockUsersData.users.find(u => u.id === id);
+    const user = mockUsersData.users.find(
+      u => String(u.id) === String(id)
+    );
+
     if (!user) {
+      console.log("ID requested:", id);
+      console.log("Available:", mockUsersData.users.map(u => u.id));
       throw new Error('User not found');
     }
 
     return user as User;
   },
-
   updateUserStatus: async (id: string, status: User['status']): Promise<User> => {
     await delay();
 

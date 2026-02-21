@@ -18,7 +18,7 @@ const UserDetailsPage: React.FC = () => {
   }, [id, fetchUser]);
 
   const handleBackToUsers = () => {
-    navigate("/dashboard");
+    navigate("/users");
   };
 
   const handleBlacklistUser = async () => {

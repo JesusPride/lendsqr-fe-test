@@ -230,6 +230,7 @@
         transition: color 0.2s ease;
         white-space: nowrap;
         flex-shrink: 0;
+        outline: none;
 
         &:hover {
           color: #39cdcc;

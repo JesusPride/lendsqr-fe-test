@@ -4,8 +4,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: $spacing-xl;
-  padding: $spacing-lg 0;
+  padding: 0;
+  margin: 0;
 
   .pagination-info {
     display: flex;
@@ -109,8 +109,6 @@
     flex-direction: column;
     gap: $spacing-md;
     align-items: center;
-    margin-top: $spacing-lg;
-    padding: $spacing-md 0;
 
     .pagination-info {
       order: 2;

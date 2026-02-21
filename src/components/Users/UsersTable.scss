@@ -1,5 +1,20 @@
 @import "../../styles/variables.scss";
 
+.users-page-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.users-pagination-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 0;
+  background: transparent;
+  width: 100%;
+}
+
 .users-table-container {
   background: $white;
   border-radius: $border-radius;
@@ -192,6 +207,15 @@
       .table-header {
         font-size: 9px;
       }
+    }
+  }
+
+  .users-pagination-container {
+    padding: 16px;
+    justify-content: center;
+
+    @media (min-width: 768px) {
+      justify-content: flex-end;
     }
   }
 }
