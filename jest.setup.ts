@@ -1,4 +1,3 @@
-/// <reference types="@testing-library/jest-dom" />
 import '@testing-library/jest-dom';
 
 // Use Node's built-in TextEncoder/TextDecoder
